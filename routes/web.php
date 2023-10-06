@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\Auth\LogoutController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RegisterController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TaskController;
 
 
 /*
@@ -29,10 +30,12 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->middleware('gue
 Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login');
 
 // Dashboard
-Route::get('/dashboard', function (){
+Route::get('/dashboard', function () {
     return view('dashboard');
 });
 
 // Logout
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
+//Get List of tasks
+Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
