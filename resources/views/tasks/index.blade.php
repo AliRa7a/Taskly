@@ -6,76 +6,59 @@
     <title>Tasks</title>
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
 </head>
 <body>
 <nav class="navbar">
-    <div class="logo">
+    <div class="logo" style="margin-left: 10px">
+        <h2 class="username">{{ Auth::user()->name }}</h2>
     </div>
     <ul class="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Dashboard</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/tasks">Tasks</a></li>
         <li><a href="#">Settings</a></li>
-        <li><a href="#" id="logout-link">Logout</a></li>
-
+        <li><a href="{{ route('logout') }}"> Logout</a></li>
     </ul>
 </nav>
+    <h1 class="text-center">All Tasks</h1>
+    <div class="d-flex justify-content-end" style="margin-right: 20px">
+        <form method="GET" action="{{ route('tasks.index') }}" class="row g-2 align-items-center">
+            <div class="col-auto">
+                <label for="sort" class="form-label">Sort by:</label>
+            </div>
+            <div class="col-auto">
+                <select name="sort" id="sort" class="form-select" onchange="this.form.submit()">
+                    <option value="priority" {{ request('sort') == 'priority' ? 'selected' : '' }}>Priority</option>
+                    <option value="due_date" {{ request('sort') == 'due_date' ? 'selected' : '' }}>Due Date</option>
+                </select>
+            </div>
+        </form>
+        <a href="{{ route('tasks.create') }}" class="btn btn-primary ms-auto" style="float: left">Create New Task</a>
 
-<aside class="sidebar">
-    <ul class="sidebar-links">
-        <li><a href="#">Dashboard</a></li>
-        <li><a href="#">Analytics</a></li>
-        <li><a href="/tasks">Tasks</a></li>
-        <li><a href="#">Messages</a></li>
-        <li><a href="#">Settings</a></li>
-    </ul>
-</aside>
+    </div>
 
-<main class="content">
-    <h1>All Tasks</h1>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Due Date</th>
-            <th>Priority</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach ($tasks as $task)
+    <div class="justify-content-center">
+        <table class="table table-striped">
+            <thead>
             <tr>
-                <td>{{ $task->title }}</td>
-                <td>{{ $task->description }}</td>
-                <td>{{ $task->due_date }}</td>
-                <td>{{ $task->priority }}</td>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Priority</th>
             </tr>
-        @endforeach
-        </tbody>
-    </table>
-</main>
-{{--script for logout--}}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('logout-link').addEventListener('click', function (e) {
-            e.preventDefault();
-            fetch('{{ route('logout') }}', {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            })
-                .then(response => {
-                    if (response.ok) {
-                        window.location.href = '/';
-                    } else {
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        });
-    });
-</script>
+            </thead>
+            <tbody>
+            @foreach ($tasks as $task)
+                <tr>
+                    <td>{{ $task->title }}</td>
+                    <td>{{ $task->description }}</td>
+                    <td>{{ $task->due_date }}</td>
+                    <td>{{ $task->priority }}</td>
+                    <td><a href="{{route('tasks.edit', $task->id)}}" class="btn btn-success">Update</a></td>
+                    <td><a href="{{route('tasks.destroy', $task->id)}}" class="btn btn-danger">Delete</a></td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
