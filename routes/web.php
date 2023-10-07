@@ -38,4 +38,19 @@ Route::get('/dashboard', function () {
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
 //Get List of tasks
-Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index')->middleware('auth');
+
+//Add New Task
+Route::get('/task/add', function () {
+    return view('tasks.create');})->name('tasks.create');
+Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
+
+//Update the Task
+Route::get('/task/edit/{id}', [TaskController::class, 'edit'])->name('tasks.edit');
+Route::post('/task/update/{id}', [TaskController::class, 'update'])->name('tasks.update');
+
+//Delete the task
+Route::get('/task/destroy/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+
+
+
