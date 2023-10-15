@@ -8,17 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar">
-    <div class="logo">
-        <h2 class="username">{{ Auth::user()->name }}</h2>
-    </div>
-    <ul class="nav-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="/tasks">Tasks</a></li>
-        <li><a href="#">Settings</a></li>
-        <li><a href="{{ route('logout') }}"> Logout</a></li>
-    </ul>
-</nav>
+@include('navbar')
     <main class="content">
         <div class="container">
             <div class="row justify-content-center">

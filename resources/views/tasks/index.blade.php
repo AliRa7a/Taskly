@@ -8,17 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar">
-    <div class="logo" style="margin-left: 10px">
-        <h2 class="username">{{ Auth::user()->name }}</h2>
-    </div>
-    <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/tasks">Tasks</a></li>
-        <li><a href="#">Settings</a></li>
-        <li><a href="{{ route('logout') }}"> Logout</a></li>
-    </ul>
-</nav>
+@include('navbar')
     <h1 class="text-center">All Tasks</h1>
     <div class="d-flex justify-content-end" style="margin-right: 20px">
         <form method="GET" action="{{ route('tasks.index') }}" class="row g-2 align-items-center">

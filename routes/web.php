@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
 
@@ -19,7 +20,7 @@ use App\Http\Controllers\TaskController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 //User Registration
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->middleware('guest');
@@ -42,7 +43,8 @@ Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index')->mid
 
 //Add New Task
 Route::get('/task/add', function () {
-    return view('tasks.create');})->name('tasks.create');
+    return view('tasks.create');
+})->name('tasks.create');
 Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
 
 //Update the Task
@@ -52,5 +54,7 @@ Route::post('/task/update/{id}', [TaskController::class, 'update'])->name('tasks
 //Delete the task
 Route::get('/task/destroy/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 
-
-
+//Profile
+Route::get('/profile', [UserProfileController::class, 'index'])->name('profile.index')->middleware('auth');
+//Upload Profile Picture
+Route::post('/profile/upload-picture', [UserProfileController::class, 'uploadProfilePicture'])->name('profile.upload-picture')->middleware('auth');
